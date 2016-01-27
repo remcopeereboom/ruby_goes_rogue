@@ -3,7 +3,25 @@ require 'spec_helper'
 module RubyGoesRogue
   describe 'Rect' do
     describe '#initalize' do
-      context 'given a width and a height' do
+      context 'given a negative width' do
+        let(:width) { -5 }
+        let(:height) { 3 }
+
+        it 'throws an ArgumentError' do
+          expect { Rect.new(width, height) }.to raise_error ArgumentError
+        end
+      end
+
+      context 'given a negative height' do
+        let(:width) { 5 }
+        let(:height) { -3 }
+
+        it 'throws an ArgumentError' do
+          expect { Rect.new(width, height) }.to raise_error ArgumentError
+        end
+      end
+
+      context 'given a valid width and a valid height' do
         let(:width) { 5 }
         let(:height) { 3 }
         let(:rect) { Rect.new(width, height) }
@@ -30,7 +48,25 @@ module RubyGoesRogue
         end
       end
 
-      context 'given an xrange and a yrange' do
+      context 'given an xrange with xmin > xmax' do
+        let(:xrange) { 0..-3 }
+        let(:yrange) { 0..3 }
+
+        it 'throws an ArgumentError' do
+          expect { Rect.new(xrange, yrange) }.to raise_error ArgumentError
+        end
+      end
+
+      context 'given an yrange with ymin > ymax' do
+        let(:xrange) { 0..3 }
+        let(:yrange) { 0..-3 }
+
+        it 'throws an ArgumentError' do
+          expect { Rect.new(xrange, yrange) }.to raise_error ArgumentError
+        end
+      end
+
+      context 'given a valid xrange and a valid yrange' do
         let(:xrange) { 0...9 }
         let(:yrange) { -3..6 }
         let(:rect) { Rect.new(xrange, yrange) }
@@ -72,6 +108,33 @@ module RubyGoesRogue
           expect(enumerator.next).to eq Coord.new(2, 5)
           expect(enumerator.next).to eq Coord.new(3, 5)
           expect { enumerator.next }.to raise_error StopIteration
+        end
+      end
+    end
+
+    describe '#==' do
+      context 'given a rectangle with the same domain' do
+        let(:lhs) { Rect.new(1..2, 3..4) }
+        let(:rhs) { Rect.new(1...3, 3..4) }
+
+        it 'returns true' do
+          expect(lhs == rhs).to be_truthy
+        end
+      end
+      context 'given a rectangle with a different domain' do
+        let(:lhs) { Rect.new(1..2, 3..4) }
+        let(:rhs) { Rect.new(3..4, 1..2) }
+
+        it 'returns false' do
+          expect(lhs == rhs).to be_falsey
+        end
+      end
+      context 'given something else' do
+        let(:lhs) { Rect.new(1..2, 3..4) }
+        let(:rhs) { :foo }
+
+        it 'returns false' do
+          expect(lhs == rhs).to be_falsey
         end
       end
     end

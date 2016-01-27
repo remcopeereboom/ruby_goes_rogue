@@ -18,15 +18,10 @@ module RubyGoesRogue
     #   @param yrange [Range<Integer>] the range of inclusive y coordinates.
     def initialize(*args)
       if args[0].is_a? Integer
-        width, height = *args
-        xrange = 0...width
-        yrange = 0...height
+        init_using_dimensions(*args)
       else
-        xrange, yrange = *args
+        init_using_ranges(*args)
       end
-
-      @xrange = xrange
-      @yrange = yrange
     end
 
     # The width of the rectangle.
@@ -67,7 +62,7 @@ module RubyGoesRogue
 
     # Return each coordinate in the rectangle.
     # @yieldparam [Coord]
-    # @return [Enumerator] to the method if no block is given.
+    # @return [Enumerator<:each>] if no block is given.
     # @return [self] if a block is given.
     def each
       return enum_for(:each) unless block_given?
@@ -81,10 +76,43 @@ module RubyGoesRogue
       self
     end
 
+    def ==(other)
+      xmin == other.xmin && 
+        xmax == other.xmax && 
+        ymin == other.ymin &&
+        ymax == other.ymax
+    rescue NoMethodError
+      false
+    end
+
     # Return a string representation of the form rc(x:xmin..xmax, y:ymin..ymax).
     # @return [String]
     def to_s
       "rc(x:#{xmin}..#{xmax}, y:#{ymin}..#{ymax})"
+    end
+
+    private
+
+    def init_using_dimensions(width, height)
+      if width < 0
+        fail ArgumentError, "Rect must have non-negative width (#{width})."
+      elsif height < 0
+        fail ArgumentError, "Rect must have non-negative height (#{height})."
+      end
+
+      @xrange = 0...width
+      @yrange = 0...height
+    end
+
+    def init_using_ranges(xrange, yrange)
+      if xrange.min.nil? # nil if min > max
+        fail ArgumentError, "Rect must have a valid x domain (#{xrange})."
+      elsif yrange.min.nil? # nil if min > max
+        fail ArgumentError, "Rect must have a valid y domain (#{yrange})."
+      end
+
+      @xrange = xrange
+      @yrange = yrange
     end
   end
 end
