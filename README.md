@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/remcopeereboom/ruby_goes_rogue.png?branch=master)](https://travis-ci.org/remcopeereboom/ruby_goes_rogue?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/remcopeereboom/ruby_goes_rogue/badge.svg?branch=master)](https://coveralls.io/github/remcopeereboom/ruby_goes_rogue?branch=master)
-
 # Ruby Goes Rogue
 
 Ruby Goes Rogue is a little roguelike library for ruby. It uses Gosu to
