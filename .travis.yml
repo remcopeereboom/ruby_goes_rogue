@@ -1,4 +1,6 @@
 language: ruby
+before_install:
+  - sudo apt-get install -y libsdl2-dev libsdl2-ttf-dev libpango1.0-dev libgl1-mesa-dev libfreeimage-dev libopenal-dev libsndfile-dev
 cache: bundler
 rvm:
   - 2.2.3
