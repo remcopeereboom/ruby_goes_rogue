@@ -76,6 +76,10 @@ module RubyGoesRogue
       self
     end
 
+    # Do two rectangles have the same domain?
+    # @param other [Rect, Object]
+    # @return [false] if other has the wrong duck type.
+    # @return [Boolean] if other is a Rect.
     def ==(other)
       xmin == other.xmin && 
         xmax == other.xmax && 
