@@ -43,5 +43,37 @@ module RubyGoesRogue
     rescue NoMethodError
       false
     end
+
+    # Draw the cell to the screen.
+    # @param coord [Coord] the the screen position of the cell's topleft corner
+    #   in cells.
+    # @param tileset [Tileset] the tileset to use for drawing.
+    # @param xscale [Float] a horizontal scaling factor.
+    # @param yscale [Float] a vertical sclaing factor.
+    #
+    # @note that these scaling factors are distinct from the tileset scaling
+    #   factors. The final on_screen image will equal:
+    #     `tileset.size * tilset.scaling * draw.scaling`.
+    #
+    # @return [void]
+    def draw(coord,
+             tileset = System.default_tileset,
+             xscale = 1.0,
+             yscale = 1.0)
+
+      img = tileset[@glyph]
+      xscale *= tileset.xscale
+      yscale *= tileset.yscale
+      w = img.width * xscale
+      h = img.height * yscale
+      x = coord.x * w
+      y = coord.y * h
+
+      # Draw the background.
+      Gosu.draw_rect(x, y, w, h, @back_color)
+
+      # Draw the foreground.
+      img.draw(x, y, 0, xscale, yscale, @fore_color)
+    end
   end
 end
