@@ -6,9 +6,11 @@ module RubyGoesRogue
   # @!attribute window [r]
   #   @api private
   #   @return [Window]
+  # @!attribute screen_rect [r]
+  #   @return [Rect] the screen size in Cells.
   module System
     class << self
-      attr_reader :default_tileset, :window
+      attr_reader :default_tileset, :window, :screen_rect
 
       # Initialize the RGR library.
       # @param cols [Integer] the width of the screen in cells. Must be > 0.
@@ -20,6 +22,7 @@ module RubyGoesRogue
         @default_tileset = Tileset.new(tileset)
         @window = MainWindow.new(cols * default_tileset.tile_width,
                                  rows * default_tileset.tile_height)
+        @screen_rect = Rect.new(cols, rows)
       end
 
       # Set the method containing drawing routines.

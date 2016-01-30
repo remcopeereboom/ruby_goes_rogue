@@ -10,13 +10,19 @@ module RubyGoesRogue
 
   System.init_rgr(80, 25)
 
+  foo = Cell.new('@', Color::RED, Color::YELLOW)
+  bar = Cell.new('X', Color::WHITE, Color::BLUE)
+
+  console = Console.new(5, 7)
+  console.fill(bar)
+
   System.on_draw = lambda do
-    cell = Cell.new('@', Color::RED, Color::YELLOW)
-    cell.draw(Coord.new(5, 5))
+    console.draw(Coord.new(3, 3))
+    foo.draw(Coord.new(5, 5))
   end
 
   System.on_update = lambda do |dt|
-    puts "FPS: #{1000 / dt}"
+    # puts "FPS: #{1000 / dt}"
   end
 
   System.window.show

@@ -1,4 +1,6 @@
 module RubyGoesRogue
+  # A console is an abstraction of a window terminal. They are implemented as
+  # 2d-arrays of cells.
   class Console
     # The cell used when clearing consoles. This is also the cell used to fill
     # new consoles.
@@ -33,11 +35,11 @@ module RubyGoesRogue
     # Return the cell at the coord.
     # @overload [](coord)
     #   @param coord [Coord]
-    #   @return cell [Cell]
+    #   @return [Cell]
     # @overload [](x, y)
     #   @param x [Integer]
     #   @param y [Integer]
-    #   @return cell [Cell]
+    #   @return [Cell]
     def [](*coord)
       if coord[0].is_a? Coord
         x, y = coord[0].to_a
@@ -52,7 +54,7 @@ module RubyGoesRogue
     # @overload [](coord, new_cell)
     #   @param coord [Coord]
     #   @param new_cell [Cell]
-    #   @return cell [Cell]
+    #   @return [Cell]
     #   @return [void]
     # @overload [](x, y, new_cell)
     #   @param x [Integer]
@@ -104,6 +106,35 @@ module RubyGoesRogue
       @rect.each { |c| yield self[c], c }
 
       self
+    end
+
+    # Clear the console (fill with Console.clear_cell).
+    # @return [void]
+    def clear
+      fill(Console.clear_cell)
+    end
+
+    # Fill the console
+    # @return [void]
+    def fill(cell)
+      @cells.map! { cell }
+    end
+
+    # Draw the console to the screen.
+    def draw(offset = Coord.new(0, 0),
+             tileset = System.default_tileset,
+             xscale = 1.0,
+             yscale = 1.0)
+      draw_full(offset, tileset, xscale, yscale)
+    end
+
+    private
+
+    # Draw the entire console at the specified offset.
+    def draw_full(offset, tileset, xscale, yscale)
+      each_with_coord do |cell, coord|
+        cell.draw(coord + offset, tileset, xscale, yscale)
+      end
     end
   end
 end
