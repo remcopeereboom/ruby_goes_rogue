@@ -81,8 +81,8 @@ module RubyGoesRogue
     # @return [false] if other has the wrong duck type.
     # @return [Boolean] if other is a Rect.
     def ==(other)
-      xmin == other.xmin && 
-        xmax == other.xmax && 
+      xmin == other.xmin &&
+        xmax == other.xmax &&
         ymin == other.ymin &&
         ymax == other.ymax
     rescue NoMethodError
