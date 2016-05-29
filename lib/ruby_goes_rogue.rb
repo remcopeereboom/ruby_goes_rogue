@@ -13,8 +13,12 @@ require 'ruby_goes_rogue/cell'
 require 'ruby_goes_rogue/rect'
 require 'ruby_goes_rogue/console'
 require 'ruby_goes_rogue/window'
+require 'ruby_goes_rogue/tileset'
 
 # The RGR library namespace
 module RubyGoesRogue
-  GameWindow.new(640, 480).show
+  cols = 80
+  rows = 25
+  path = File.expand_path('../../media', __FILE__) + '/tileset.png'
+  GameWindow.new(cols, rows, path).show
 end
