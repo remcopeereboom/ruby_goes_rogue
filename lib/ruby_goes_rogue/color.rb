@@ -18,5 +18,18 @@ module RubyGoesRogue
     def to_a
       [red, green, blue, alpha]
     end
+
+    # Return a Hash representation.
+    # @return [Hash]
+    def to_h
+      {
+        red: red,
+        green: green,
+        blue: blue,
+        hue: hue,
+        saturation: saturation,
+        value: value
+      }.freeze
+    end
   end
 end

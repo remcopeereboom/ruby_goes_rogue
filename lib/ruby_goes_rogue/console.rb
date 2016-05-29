@@ -1,17 +1,26 @@
 module RubyGoesRogue
+  # A {Console} is a 2d array of cells.
+  #
+  # Consoles are containers that can be blitted directly to the screen.
+  # They contain methods for getting ({#[]}) and setting ({#[]=}) cells, as well
+  # as method for enumerating over the entire contents of the console.
+  #
+  # @!attribute [r] rect
+  #   @return [Rect] A rectangle containing the size of the console in cells.
   class Console
     # The cell used when clearing consoles. This is also the cell used to fill
     # new consoles.
     # @return [Cell]
     def self.clear_cell
-      @clear_cell ||= Cell.new(' ', Color::BLACK, Color::BLACK)
+      @clear_cell ||= Cell.new(' ', Color::NONE, Color::NONE)
     end
 
     # Prevent ruby complaining about attribute_writers
     # rubocop:disable all
 
     # Set the cell to use when clearing consoles. This is also the cell used
-    # to fill new consoles.
+    # to fill new consoles. Passing in `nil` will set the clearcell to the
+    # default clear_cell.
     # @param new_cell [Cell] the new clear cell.
     # @return [void]
     def self.clear_cell=(new_cell)
@@ -33,11 +42,11 @@ module RubyGoesRogue
     # Return the cell at the coord.
     # @overload [](coord)
     #   @param coord [Coord]
-    #   @return cell [Cell]
+    #   @return [Cell]
     # @overload [](x, y)
     #   @param x [Integer]
     #   @param y [Integer]
-    #   @return cell [Cell]
+    #   @return [Cell]
     def [](*coord)
       if coord[0].is_a? Coord
         x, y = coord[0].to_a
@@ -52,7 +61,6 @@ module RubyGoesRogue
     # @overload [](coord, new_cell)
     #   @param coord [Coord]
     #   @param new_cell [Cell]
-    #   @return cell [Cell]
     #   @return [void]
     # @overload [](x, y, new_cell)
     #   @param x [Integer]

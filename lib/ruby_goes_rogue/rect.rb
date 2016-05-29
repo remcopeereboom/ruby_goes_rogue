@@ -77,8 +77,8 @@ module RubyGoesRogue
     end
 
     def ==(other)
-      xmin == other.xmin && 
-        xmax == other.xmax && 
+      xmin == other.xmin &&
+        xmax == other.xmax &&
         ymin == other.ymin &&
         ymax == other.ymax
     rescue NoMethodError
